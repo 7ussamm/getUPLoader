@@ -406,7 +406,7 @@ class git(QWidget):
         try:
             os.chdir(folderdir)
             if '.git' not in os.listdir(folderdir) :
-                if len(self.e_mailT.text())!=0 and len(self.usrNmeT.text())!=0:
+                if len(str(self.e_mailT.text()).strip())!=0 and len(str(self.usrNmeT.text()).strip())!=0:
                     subprocess.check_output("git init", shell=True)
                     subprocess.check_output("git config --global user.email %s" %self.e_mailT.text(),shell=True)
                     subprocess.check_output("git config --global user.name %s" %self.usrNmeT.text(),shell=True)
