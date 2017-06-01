@@ -400,16 +400,18 @@ class git(QWidget):
         else:
             pass
 
-
     def gitStatus(self):
-
+        self.textShow.clear()
+        folderdir = self.folderDirT.text()
         try:
-            os.chdir(self.folderDirT.text())
-            if '.git' not in os.listdir() :
-
-                subprocess.check_output('git init', shell=True)
-                subprocess.check_output('git config --global user.email %s' %self.e_mailT.text())
-                subprocess.check_output('git config --global user.name %s' %self.usrNmeT.text())
+            os.chdir(folderdir)
+            if '.git' not in os.listdir(folderdir) :
+                if len(str(self.e_mailT.text()).strip())!=0 and len(str(self.usrNmeT.text()).strip())!=0:
+                    subprocess.check_output("git init", shell=True)
+                    subprocess.check_output("git config --global user.email %s" %self.e_mailT.text(),shell=True)
+                    subprocess.check_output("git config --global user.name %s" %self.usrNmeT.text(),shell=True)
+                else:
+                    raise OSError
 
 
             status = str(subprocess.check_output('git status', shell=True))
@@ -418,8 +420,8 @@ class git(QWidget):
 
             self.textShow.setText(status[2:-1])
         except:
-                self.err = error()
-                self.err.show()
+            self.err = error()
+            self.err.show()
 
 
     def addToRepo(self):
